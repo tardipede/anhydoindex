@@ -7,4 +7,5 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+This project present a new method for analyzing recovery data from anhydrobiosis experiments on tardigrades.  
+A description of the method and its use in different study cases are presented.  

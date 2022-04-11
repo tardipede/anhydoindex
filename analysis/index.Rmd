@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Anhydrobiosis Index: a new tool for quantifying and testing anhydrobiotis performance in tardigrades"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,4 +8,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+
+
+# Statistical analysis
+Click [here](statistics.html) to see the code used to analyse and plot the female fecundity data.
+
+# Population genetic model
+Click [here](population_genetic_model.html) to see the code used to run the model that derives expected frequencies of SR.
