@@ -8,10 +8,8 @@ editor_options:
   chunk_output_type: console
 ---
 
+### [1. Anhydrobiosis Index](1.Anhydrobiosis_Index.html)
+### [2. Milnesium Anhydrobiosis Index](2.Milnesium_anhydrobiosis.html)
 
 
-# Statistical analysis
-Click [here](statistics.html) to see the code used to analyse and plot the female fecundity data.
-
-# Population genetic model
-Click [here](population_genetic_model.html) to see the code used to run the model that derives expected frequencies of SR.
+https://tardipede.github.io/anhydoindex/

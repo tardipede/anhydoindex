@@ -1,0 +1,55 @@
+---
+title: "2. Milnesium anhydrobiosis"
+author: "Matteo Vecchi"
+date: "`r Sys.Date()`"
+editor_options:
+  chunk_output_type: console
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load packages, results='hide', message=F, warning=F}
+library(tidyverse)
+library(ggplot2)
+library(ggrepel)
+library(ggstance)
+library(RColorBrewer)
+library(R2jags)
+library(bayestestR)
+source("./code/AhI_functions.R")
+```
+
+```{r load data Milnesium}
+data_Milnesium = read.table("./data/data_milnesium.txt", header=T, sep="\t")
+data_Milnesium$total = rep(10, nrow(data_Milnesium)) # The total number of individuals analyzed for each replicate was 10
+data_Milnesium$time_hours = data_Milnesium$time_min/60 # Convert time to hours
+data_Milnesium$exp_group = paste(data_Milnesium$anhydrobiosis_time, data_Milnesium$treatment) # Merge together anhydrobiosis time and treatment
+```
+
+```{r run models, results='hide', message=F, warning=F}
+# As it take times to run the model, we first check if we already run and saved it
+ifelse("model_Milnesium.rds" %in% list.files("./output"),
+       {model_Milnesium = readRDS("./output/model_Milnesium.rds")},
+       {model_Milnesium = AhI_run_model(data_Milnesium, column_IDs = c(8,7,5,6))
+        saveRDS(model_Milnesium, file="./output/model_Milnesium.rds")})
+
+```
+
+```{r process model output}
+model_Milnesium_processed = AhI_analyze_model(model_Milnesium)
+```
+
+```{r plot results, fig.width=8, fig.height=8}
+plot_AhI(model_Milnesium_processed)
+```
+
+
+
+
+

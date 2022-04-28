@@ -1,33 +1,138 @@
 ---
 title: "Anhydrobiosis Index"
 author: "Matteo Vecchi"
-date: "4/11/2022"
-output:
-  html_document:
-    code_folding: hide
-    toc: true
+date: "`r Sys.Date()`"
+editor_options:
+  chunk_output_type: console
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
+bibliography: bibliography.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r results='hide', message=F, warning=F}
+library(tidyverse)
 ```
 
-## Including Plots
+## Modelling recovery from anhydrobiosis with an exponential distribution
 
-You can also embed plots, for example:
+Most of the studies involving the quantification of anhydrobiotic performances in tardigrades measure the proportion of moving animals in different times after the beginning of rehydration. The time to recovery of individuals after the beginning the rehydration can be described by an **exponential distribution**, that is the probability distribution of the time between events that occur continuously and independently at a constant average rate.\
+The probability distribution funtion (PDF) of the exponential distribution function models the time to event, however usually this information is not available as it would require to constantly observe the individuals and record the exact moment when they start moving. It is more common instead to check the individuals at fixed time points and record how many of them are moving. The proportion if individuals that recovered their motility can be instead modeled with the cumulative distribution function (CDF) of the exponential distribution.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r Exponential distribution function, fig.dim = c(8, 4.5)}
+x = seq(0,5,0.01)
+lambda = 1
+y_PDFexp = lambda*exp(-lambda*x)
+y_CDFexp = 1 - exp(-lambda*x)
+par(mfrow=c(1,2))
+plot(x=x, y=y_PDFexp, type="l", xlab="x",ylab="P(x)", main = "Probability density function (PDF)", cex.axis=0.75, cex.main=0.9)
+plot(x=x, y=y_CDFexp, type="l", xlab="x",ylab="P(X <= x)", main = "Cumulative distribution function (CDF)", cex.axis=0.75, cex.main=0.9)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The PDF (image above - left) describes how much time do we have to wait to observe an individual starting to move after the rehydration. The CDF (image above - right) describes instead what proportion of animals already started moving at a given time *x*. From now on we will discuss only about the CDF as it is more fit to the data that is usually produce in the tardigrade anhydrobiosis experiments.
+
+The exponential distribution is only describe by one parameter $\lambda$ (lambda), often called the rate parameter and can take any positive value. $\frac{1}{\lambda}$ is the average time that we have to wait to observe the event of interest. The CDF of an exponential distribution has the following formula (where *x* represents time): $$ P(x \le X) = 1 - e^{-\lambda*x}$$
+
+```{r CDF different lambdas, fig.dim = c(8, 3)}
+par(mfrow=c(1,3))
+x = seq(0,5,0.01)
+y = 1 - exp(-0.25*x)
+plot(x=x, y=y, type="l", xlab="x",ylab="P(X <= x)", main = "CDF, lambda = 0.25", cex.axis=0.75, cex.main=0.9)
+y = 1 - exp(-1*x)
+plot(x=x, y=y, type="l", xlab="x",ylab="P(X <= x)", main = "CDF, lambda = 1.0", cex.axis=0.75, cex.main=0.9)
+y = 1 - exp(-1.75*x)
+plot(x=x, y=y, type="l", xlab="x",ylab="P(X <= x)", main = "CDF, lambda = 1.75", cex.axis=0.75, cex.main=0.9)
+```
+
+With smaller $\lambda$ values, the curve grows slower (the individuals takes longer on average to recover), whereas with bigger $\lambda$ values, the curve grows faster.
+
+The exponential distribution also assumes that at one point in time, all individuals will recover. This is not realistic as the anhydrobiotic survival can be lower than 100%. This can be easily accommodated by multiplying by the final survival. 
+$$ p = P(Survival) * (1 - e^{-\lambda*x})$$
+```{r CDF different p, fig.dim = c(8, 3)}
+par(mfrow=c(1,3))
+x = seq(0,5,0.01)
+y = (1 - exp(-1*x))*1
+plot(x=x, y=y, type="l", xlab="x",ylab="p", main = "CDF, lambda = , P(survival) = 1", cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
+y = (1 - exp(-1*x))*0.75
+plot(x=x, y=y, type="l", xlab="x",ylab="p", main = "CDF, lambda = , P(survival) = 0.75", cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
+y = (1 - exp(-1*x))*0.5
+plot(x=x, y=y, type="l", xlab="x",ylab="p", main = "CDF, lambda = , P(survival) = 0.50", cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
+```
+By changing the two parameters ($\lambda$ and *p*) of this modified CDF of exponential distribution, we can describe accurately how does tardigrades start recovering after anhydrobiosis. 
+
+If we measured the proportion of motile animals at 1,2,4,12,and 24 hours after the start of the rehydration (red dots), we would fit all those single points to a unique line (black line).  
+
+```{r data fitting}
+x = seq(0,25,0.1)
+y = (1 - exp(-0.3*x))*0.75
+plot(x=x, y=y, type="l", xlab="time(hours)",ylab="Proportion of motile animals", main = "Fitting of anhydrobiosis recovery data", 
+     cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
+points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col="red", pch=19)
+```
+
+If we fit the line with Bayestan methods, we will obtain not one single line, but a posterior distribution (grey lines) of equally probable lines (of which we can calculate the average one - black line).  
+```{r bayesian fitting}
+x = seq(0,25,0.1)
+y_true = (1 - exp(-0.3*x))*0.75
+plot(x=x, y=y_true, type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "Fitting of anhydrobiosis recovery data", 
+     cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
+
+for(i in 1:100){
+  y = (1 - exp(-(0.3+rnorm(1,0,0.05))*x))*(0.75+rnorm(1,0,0.05))
+  lines(x=x, y=y, type="l", col =alpha("grey", 0.5))
+  
+}
+lines(x=x, y=y_true)
+points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col="red", pch=19)
+```
+
+## Reparametrization of CDF exponential function
+The $\lambda$ parameter is not easy to interpret. I t is possible however, to reparametrize the function to a new parameter that describe the time needed to reach the motility of a certain proportion of the surviving animals.  
+The new parameter (that we will call *Q*), describe the time needed to reach a certain proportion (*pm*) proportion of animals to be motile:
+$$ \lambda = \frac{-log(1-pm)}{Q} $$
+If we set *pm* = 0.9, and *Q* is 12, it means that (among the surviving animals), 90% of them will recover their motility in 12 hours after rehydration. 
+With *pm* set to 0.9, and assuming a survival of 100%, the different recovery speed would look like this:  
+
+```{r different Qs}
+x = seq(0,25,0.1)
+plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "Recovery speed with different Qs", 
+     cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt="n")
+axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
+
+for(Q in c(1,2,4,8,12,16,20,24)){
+  lambda = -log(1-0.9)/Q
+  y = (1 - exp(-lambda*x))*1
+  lines(x=x, y=y, type="l", col ="black")
+}
+abline(h = 0.9, col="red", lty=2)
+abline(v = c(1,2,4,8,12,16,20,24), col="blue", lty=2)
+```
+
+The same keeps whrn the survival is lower than 100%, the 90% quantile is calculated on the estimated survival. For example, with a final survival of 75%, the 90% quantile for *Q* is calculated as $0.75*0.90 = 0.675$.  
+
+```{r different QsP75}
+x = seq(0,25,0.1)
+plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "Recovery speed with different Qs", 
+     cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt="n")
+axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
+
+for(Q in c(1,2,4,8,12,16,20,24)){
+  lambda = -log(1-0.9)/Q
+  y = (1 - exp(-lambda*x))*0.75
+  lines(x=x, y=y, type="l", col ="black")
+}
+abline(h=0.75, col="green")
+abline(h = 0.9*0.75, col="red", lty=2)
+abline(v = c(1,2,4,8,12,16,20,24), col="blue", lty=2)
+```
+
+With this formulation, *Q* is independent from the overall survival probability and has an intuitive interpretation.  
+
+## Binding speed between 0 and 1
+
+
+

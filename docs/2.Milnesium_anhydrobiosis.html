@@ -11,9 +11,9 @@
 
 <meta name="author" content="Matteo Vecchi" />
 
-<meta name="date" content="2022-04-28" />
+<meta name="date" content="2022-04-17" />
 
-<title>Anhydrobiosis Index</title>
+<title>2. Milnesium anhydrobiosis</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -388,9 +388,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Anhydrobiosis Index</h1>
+<h1 class="title toc-ignore">2. Milnesium anhydrobiosis</h1>
 <h4 class="author">Matteo Vecchi</h4>
-<h4 class="date">2022-04-28</h4>
+<h4 class="date">2022-04-17</h4>
 
 </div>
 
@@ -419,7 +419,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-04-28
+<strong>Last updated:</strong> 2022-04-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -457,10 +457,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -553,15 +553,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreed18891f2977d7b7e7fd275d15f1664b080b3c64dtargetblankd18891fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongd18891f">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/tardipede/anhydoindex/tree/d18891f2977d7b7e7fd275d15f1664b080b3c64d" target="_blank">d18891f</a>
+aria-hidden="true"></span> <strong>Repository version:</strong> d18891f
 </a>
 </p>
 </div>
-<div
-id="strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreed18891f2977d7b7e7fd275d15f1664b080b3c64dtargetblankd18891fa"
+<div id="strongRepositoryversionstrongd18891f"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -570,8 +568,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version
-<a href="https://github.com/tardipede/anhydoindex/tree/d18891f2977d7b7e7fd275d15f1664b080b3c64d" target="_blank">d18891f</a>.
+The results in this page were generated with repository version d18891f.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -590,16 +587,15 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
-    Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
 Untracked files:
     Untracked:  analysis/2.Milnesium_anhydrobiosis.Rmd
     Untracked:  analysis/bibliography.bib
     Untracked:  code/AhI_functions.R
+    Untracked:  code/model_Milnesium.rds
     Untracked:  data/data_Milnesium.txt
     Untracked:  output/model_Milnesium.rds
-    Untracked:  temporary_code.R
 
 Unstaged changes:
     Modified:   analysis/1.Anhydrobiosis_Index.Rmd
@@ -626,158 +622,26 @@ There are no past versions. Publish this analysis with
 </div>
 </div>
 </div>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<div
-id="modelling-recovery-from-anhydrobiosis-with-an-exponential-distribution"
-class="section level2">
-<h2>Modelling recovery from anhydrobiosis with an exponential
-distribution</h2>
-<p>Most of the studies involving the quantification of anhydrobiotic
-performances in tardigrades measure the proportion of moving animals in
-different times after the beginning of rehydration. The time to recovery
-of individuals after the beginning the rehydration can be described by
-an <strong>exponential distribution</strong>, that is the probability
-distribution of the time between events that occur continuously and
-independently at a constant average rate.<br />
-The probability distribution funtion (PDF) of the exponential
-distribution function models the time to event, however usually this
-information is not available as it would require to constantly observe
-the individuals and record the exact moment when they start moving. It
-is more common instead to check the individuals at fixed time points and
-record how many of them are moving. The proportion if individuals that
-recovered their motility can be instead modeled with the cumulative
-distribution function (CDF) of the exponential distribution.</p>
-<pre class="r"><code>x = seq(0,5,0.01)
-lambda = 1
-y_PDFexp = lambda*exp(-lambda*x)
-y_CDFexp = 1 - exp(-lambda*x)
-par(mfrow=c(1,2))
-plot(x=x, y=y_PDFexp, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(x)&quot;, main = &quot;Probability density function (PDF)&quot;, cex.axis=0.75, cex.main=0.9)
-plot(x=x, y=y_CDFexp, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;Cumulative distribution function (CDF)&quot;, cex.axis=0.75, cex.main=0.9)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/Exponential%20distribution%20function-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>The PDF (image above - left) describes how much time do we have to
-wait to observe an individual starting to move after the rehydration.
-The CDF (image above - right) describes instead what proportion of
-animals already started moving at a given time <em>x</em>. From now on
-we will discuss only about the CDF as it is more fit to the data that is
-usually produce in the tardigrade anhydrobiosis experiments.</p>
-<p>The exponential distribution is only describe by one parameter <span
-class="math inline">\(\lambda\)</span> (lambda), often called the rate
-parameter and can take any positive value. <span
-class="math inline">\(\frac{1}{\lambda}\)</span> is the average time
-that we have to wait to observe the event of interest. The CDF of an
-exponential distribution has the following formula (where <em>x</em>
-represents time): <span class="math display">\[ P(x \le X) = 1 -
-e^{-\lambda*x}\]</span></p>
-<pre class="r"><code>par(mfrow=c(1,3))
-x = seq(0,5,0.01)
-y = 1 - exp(-0.25*x)
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;CDF, lambda = 0.25&quot;, cex.axis=0.75, cex.main=0.9)
-y = 1 - exp(-1*x)
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;CDF, lambda = 1.0&quot;, cex.axis=0.75, cex.main=0.9)
-y = 1 - exp(-1.75*x)
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;CDF, lambda = 1.75&quot;, cex.axis=0.75, cex.main=0.9)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/CDF%20different%20lambdas-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>With smaller <span class="math inline">\(\lambda\)</span> values, the
-curve grows slower (the individuals takes longer on average to recover),
-whereas with bigger <span class="math inline">\(\lambda\)</span> values,
-the curve grows faster.</p>
-<p>The exponential distribution also assumes that at one point in time,
-all individuals will recover. This is not realistic as the anhydrobiotic
-survival can be lower than 100%. This can be easily accommodated by
-multiplying by the final survival. <span class="math display">\[ p =
-P(Survival) * (1 - e^{-\lambda*x})\]</span></p>
-<pre class="r"><code>par(mfrow=c(1,3))
-x = seq(0,5,0.01)
-y = (1 - exp(-1*x))*1
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;p&quot;, main = &quot;CDF, lambda = , P(survival) = 1&quot;, cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
-y = (1 - exp(-1*x))*0.75
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;p&quot;, main = &quot;CDF, lambda = , P(survival) = 0.75&quot;, cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
-y = (1 - exp(-1*x))*0.5
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;p&quot;, main = &quot;CDF, lambda = , P(survival) = 0.50&quot;, cex.axis=0.75, cex.main=0.9, ylim=c(0,1))</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/CDF%20different%20p-1.png" width="768" style="display: block; margin: auto;" />
-By changing the two parameters (<span
-class="math inline">\(\lambda\)</span> and <em>p</em>) of this modified
-CDF of exponential distribution, we can describe accurately how does
-tardigrades start recovering after anhydrobiosis.</p>
-<p>If we measured the proportion of motile animals at 1,2,4,12,and 24
-hours after the start of the rehydration (red dots), we would fit all
-those single points to a unique line (black line).</p>
-<pre class="r"><code>x = seq(0,25,0.1)
-y = (1 - exp(-0.3*x))*0.75
-plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;time(hours)&quot;,ylab=&quot;Proportion of motile animals&quot;, main = &quot;Fitting of anhydrobiosis recovery data&quot;, 
-     cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
-points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col=&quot;red&quot;, pch=19)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/data%20fitting-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>If we fit the line with Bayestan methods, we will obtain not one
-single line, but a posterior distribution (grey lines) of equally
-probable lines (of which we can calculate the average one - black
-line).</p>
-<pre class="r"><code>x = seq(0,25,0.1)
-y_true = (1 - exp(-0.3*x))*0.75
-plot(x=x, y=y_true, type=&quot;n&quot;, xlab=&quot;time(hours)&quot;,ylab=&quot;Proportion of motile animals&quot;, main = &quot;Fitting of anhydrobiosis recovery data&quot;, 
-     cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
-
-for(i in 1:100){
-  y = (1 - exp(-(0.3+rnorm(1,0,0.05))*x))*(0.75+rnorm(1,0,0.05))
-  lines(x=x, y=y, type=&quot;l&quot;, col =alpha(&quot;grey&quot;, 0.5))
-  
-}
-lines(x=x, y=y_true)
-points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col=&quot;red&quot;, pch=19)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/bayesian%20fitting-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="reparametrization-of-cdf-exponential-function"
-class="section level2">
-<h2>Reparametrization of CDF exponential function</h2>
-<p>The <span class="math inline">\(\lambda\)</span> parameter is not
-easy to interpret. I t is possible however, to reparametrize the
-function to a new parameter that describe the time needed to reach the
-motility of a certain proportion of the surviving animals.<br />
-The new parameter (that we will call <em>Q</em>), describe the time
-needed to reach a certain proportion (<em>pm</em>) proportion of animals
-to be motile: <span class="math display">\[ \lambda =
-\frac{-log(1-pm)}{Q} \]</span> If we set <em>pm</em> = 0.9, and
-<em>Q</em> is 12, it means that (among the surviving animals), 90% of
-them will recover their motility in 12 hours after rehydration. With
-<em>pm</em> set to 0.9, and assuming a survival of 100%, the different
-recovery speed would look like this:</p>
-<pre class="r"><code>x = seq(0,25,0.1)
-plot(x=c(0,25), y=c(0,1), type=&quot;n&quot;, xlab=&quot;time(hours)&quot;,ylab=&quot;Proportion of motile animals&quot;, main = &quot;Recovery speed with different Qs&quot;, 
-     cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt=&quot;n&quot;)
-axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
-
-for(Q in c(1,2,4,8,12,16,20,24)){
-  lambda = -log(1-0.9)/Q
-  y = (1 - exp(-lambda*x))*1
-  lines(x=x, y=y, type=&quot;l&quot;, col =&quot;black&quot;)
-}
-abline(h = 0.9, col=&quot;red&quot;, lty=2)
-abline(v = c(1,2,4,8,12,16,20,24), col=&quot;blue&quot;, lty=2)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/different%20Qs-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>The same keeps whrn the survival is lower than 100%, the 90% quantile
-is calculated on the estimated survival. For example, with a final
-survival of 75%, the 90% quantile for <em>Q</em> is calculated as <span
-class="math inline">\(0.75*0.90 = 0.675\)</span>.</p>
-<pre class="r"><code>x = seq(0,25,0.1)
-plot(x=c(0,25), y=c(0,1), type=&quot;n&quot;, xlab=&quot;time(hours)&quot;,ylab=&quot;Proportion of motile animals&quot;, main = &quot;Recovery speed with different Qs&quot;, 
-     cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt=&quot;n&quot;)
-axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
-
-for(Q in c(1,2,4,8,12,16,20,24)){
-  lambda = -log(1-0.9)/Q
-  y = (1 - exp(-lambda*x))*0.75
-  lines(x=x, y=y, type=&quot;l&quot;, col =&quot;black&quot;)
-}
-abline(h=0.75, col=&quot;green&quot;)
-abline(h = 0.9*0.75, col=&quot;red&quot;, lty=2)
-abline(v = c(1,2,4,8,12,16,20,24), col=&quot;blue&quot;, lty=2)</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/different%20QsP75-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>With this formulation, <em>Q</em> is independent from the overall
-survival probability and has an intuitive interpretation.</p>
-</div>
-<div id="binding-speed-between-0-and-1" class="section level2">
-<h2>Binding speed between 0 and 1</h2>
+<pre class="r"><code>library(tidyverse)
+library(ggplot2)
+library(ggrepel)
+library(ggstance)
+library(RColorBrewer)
+library(R2jags)
+library(bayestestR)
+source(&quot;./code/AhI_functions.R&quot;)</code></pre>
+<pre class="r"><code>data_Milnesium = read.table(&quot;./data/data_milnesium.txt&quot;, header=T, sep=&quot;\t&quot;)
+data_Milnesium$total = rep(10, nrow(data_Milnesium)) # The total number of individuals analyzed for each replicate was 10
+data_Milnesium$time_hours = data_Milnesium$time_min/60 # Convert time to hours
+data_Milnesium$exp_group = paste(data_Milnesium$anhydrobiosis_time, data_Milnesium$treatment) # Merge together anhydrobiosis time and treatment</code></pre>
+<pre class="r"><code># As it take times to run the model, we first check if we already run and saved it
+ifelse(&quot;model_Milnesium.rds&quot; %in% list.files(&quot;./output&quot;),
+       {model_Milnesium = readRDS(&quot;./output/model_Milnesium.rds&quot;)},
+       {model_Milnesium = AhI_run_model(data_Milnesium, column_IDs = c(8,7,5,6))
+        saveRDS(model_Milnesium, file=&quot;./output/model_Milnesium.rds&quot;)})</code></pre>
+<pre class="r"><code>model_Milnesium_processed = AhI_analyze_model(model_Milnesium)</code></pre>
+<pre class="r"><code>plot_AhI(model_Milnesium_processed)</code></pre>
+<p><img src="figure/2.Milnesium_anhydrobiosis.Rmd/plot%20results-1.png" width="768" style="display: block; margin: auto;" /></p>
 <div id="refs">
 
 </div>
@@ -805,28 +669,30 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.8     purrr_0.3.4    
-[5] readr_2.1.2     tidyr_1.2.0     tibble_3.1.6    ggplot2_3.3.5  
-[9] tidyverse_1.3.1
+ [1] bayestestR_0.11.5  R2jags_0.7-1       rjags_4-12         coda_0.19-4       
+ [5] RColorBrewer_1.1-3 ggstance_0.3.5     ggrepel_0.9.1      forcats_0.5.1     
+ [9] stringr_1.4.0      dplyr_1.0.8        purrr_0.3.4        readr_2.1.2       
+[13] tidyr_1.2.0        tibble_3.1.6       ggplot2_3.3.5      tidyverse_1.3.1   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     lubridate_1.8.0  assertthat_0.2.1 rprojroot_2.0.3 
- [5] digest_0.6.29    utf8_1.2.2       R6_2.5.1         cellranger_1.1.0
- [9] backports_1.4.1  reprex_2.0.1     evaluate_0.15    httr_1.4.2      
-[13] highr_0.9        pillar_1.7.0     rlang_1.0.2      readxl_1.4.0    
-[17] rstudioapi_0.13  jquerylib_0.1.4  rmarkdown_2.13   munsell_0.5.0   
-[21] broom_0.7.12     compiler_4.1.3   httpuv_1.6.5     modelr_0.1.8    
-[25] xfun_0.30        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.2
-[29] workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0      
-[33] dbplyr_2.1.1     withr_2.5.0      later_1.3.0      grid_4.1.3      
-[37] jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2       
-[41] git2r_0.30.1     magrittr_2.0.3   scales_1.2.0     cli_3.2.0       
-[45] stringi_1.7.6    farver_2.1.0     fs_1.5.2         promises_1.2.0.1
-[49] xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2  
-[53] vctrs_0.4.0      tools_4.1.3      glue_1.6.2       hms_1.1.1       
-[57] fastmap_1.1.0    yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2     
-[61] knitr_1.38       haven_2.4.3      sass_0.4.1      </code></pre>
-</div>
+ [1] httr_1.4.2       sass_0.4.1       jsonlite_1.8.0   modelr_0.1.8    
+ [5] bslib_0.3.1      datawizard_0.4.0 assertthat_0.2.1 highr_0.9       
+ [9] cellranger_1.1.0 yaml_2.3.5       R2WinBUGS_2.1-21 pillar_1.7.0    
+[13] backports_1.4.1  lattice_0.20-45  glue_1.6.2       digest_0.6.29   
+[17] promises_1.2.0.1 rvest_1.0.2      colorspace_2.0-3 htmltools_0.5.2 
+[21] httpuv_1.6.5     pkgconfig_2.0.3  broom_0.7.12     haven_2.4.3     
+[25] scales_1.2.0     later_1.3.0      tzdb_0.3.0       git2r_0.30.1    
+[29] farver_2.1.0     generics_0.1.2   ellipsis_0.3.2   withr_2.5.0     
+[33] cli_3.2.0        magrittr_2.0.3   crayon_1.5.1     readxl_1.4.0    
+[37] evaluate_0.15    fs_1.5.2         fansi_1.0.3      xml2_1.3.3      
+[41] tools_4.1.3      hms_1.1.1        lifecycle_1.0.1  munsell_0.5.0   
+[45] reprex_2.0.1     compiler_4.1.3   jquerylib_0.1.4  rlang_1.0.2     
+[49] grid_4.1.3       rstudioapi_0.13  labeling_0.4.2   rmarkdown_2.13  
+[53] boot_1.3-28      gtable_0.3.0     abind_1.4-5      DBI_1.1.2       
+[57] R6_2.5.1         lubridate_1.8.0  knitr_1.38       fastmap_1.1.0   
+[61] utf8_1.2.2       workflowr_1.7.0  rprojroot_2.0.3  insight_0.17.0  
+[65] stringi_1.7.6    parallel_4.1.3   Rcpp_1.0.8.3     vctrs_0.4.0     
+[69] dbplyr_2.1.1     tidyselect_1.1.2 xfun_0.30       </code></pre>
 </div>
 
 
