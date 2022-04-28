@@ -398,7 +398,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -409,8 +409,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -423,9 +423,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>Anhydrobiosis_index/</code> <span
@@ -448,21 +448,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -553,15 +550,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreed18891f2977d7b7e7fd275d15f1664b080b3c64dtargetblankd18891fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextree7675a6f5826bf7f0a507f88d3e2199276746e06dtargetblank7675a6fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/tardipede/anhydoindex/tree/d18891f2977d7b7e7fd275d15f1664b080b3c64d" target="_blank">d18891f</a>
+<a href="https://github.com/tardipede/anhydoindex/tree/7675a6f5826bf7f0a507f88d3e2199276746e06d" target="_blank">7675a6f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreed18891f2977d7b7e7fd275d15f1664b080b3c64dtargetblankd18891fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextree7675a6f5826bf7f0a507f88d3e2199276746e06dtargetblank7675a6fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -571,7 +568,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/tardipede/anhydoindex/tree/d18891f2977d7b7e7fd275d15f1664b080b3c64d" target="_blank">d18891f</a>.
+<a href="https://github.com/tardipede/anhydoindex/tree/7675a6f5826bf7f0a507f88d3e2199276746e06d" target="_blank">7675a6f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -592,18 +589,6 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
-
-Untracked files:
-    Untracked:  analysis/2.Milnesium_anhydrobiosis.Rmd
-    Untracked:  analysis/bibliography.bib
-    Untracked:  code/AhI_functions.R
-    Untracked:  data/data_Milnesium.txt
-    Untracked:  output/model_Milnesium.rds
-    Untracked:  temporary_code.R
-
-Unstaged changes:
-    Modified:   analysis/1.Anhydrobiosis_Index.Rmd
-    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -655,6 +640,44 @@ par(mfrow=c(1,2))
 plot(x=x, y=y_PDFexp, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(x)&quot;, main = &quot;Probability density function (PDF)&quot;, cex.axis=0.75, cex.main=0.9)
 plot(x=x, y=y_CDFexp, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;Cumulative distribution function (CDF)&quot;, cex.axis=0.75, cex.main=0.9)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/Exponential%20distribution%20function-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Exponential-distribution-function-1">
+Past versions of "Exponential distribution function-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-Exponential-distribution-function-1"
+class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/Exponential distribution function-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The PDF (image above - left) describes how much time do we have to
 wait to observe an individual starting to move after the rehydration.
 The CDF (image above - right) describes instead what proportion of
@@ -678,6 +701,43 @@ plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&qu
 y = 1 - exp(-1.75*x)
 plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;P(X &lt;= x)&quot;, main = &quot;CDF, lambda = 1.75&quot;, cex.axis=0.75, cex.main=0.9)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/CDF%20different%20lambdas-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-CDF-different-lambdas-1">
+Past versions of "CDF different lambdas-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-CDF-different-lambdas-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/CDF different lambdas-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>With smaller <span class="math inline">\(\lambda\)</span> values, the
 curve grows slower (the individuals takes longer on average to recover),
 whereas with bigger <span class="math inline">\(\lambda\)</span> values,
@@ -695,8 +755,45 @@ y = (1 - exp(-1*x))*0.75
 plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;p&quot;, main = &quot;CDF, lambda = , P(survival) = 0.75&quot;, cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
 y = (1 - exp(-1*x))*0.5
 plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;x&quot;,ylab=&quot;p&quot;, main = &quot;CDF, lambda = , P(survival) = 0.50&quot;, cex.axis=0.75, cex.main=0.9, ylim=c(0,1))</code></pre>
-<p><img src="figure/1.Anhydrobiosis_Index.Rmd/CDF%20different%20p-1.png" width="768" style="display: block; margin: auto;" />
-By changing the two parameters (<span
+<p><img src="figure/1.Anhydrobiosis_Index.Rmd/CDF%20different%20p-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-CDF-different-p-1">
+Past versions of "CDF different p-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-CDF-different-p-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/CDF different p-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>By changing the two parameters (<span
 class="math inline">\(\lambda\)</span> and <em>p</em>) of this modified
 CDF of exponential distribution, we can describe accurately how does
 tardigrades start recovering after anhydrobiosis.</p>
@@ -709,6 +806,43 @@ plot(x=x, y=y, type=&quot;l&quot;, xlab=&quot;time(hours)&quot;,ylab=&quot;Propo
      cex.axis=0.75, cex.main=0.9, ylim=c(0,1))
 points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col=&quot;red&quot;, pch=19)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/data%20fitting-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-data-fitting-1">
+Past versions of "data fitting-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-data-fitting-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/data fitting-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>If we fit the line with Bayestan methods, we will obtain not one
 single line, but a posterior distribution (grey lines) of equally
 probable lines (of which we can calculate the average one - black
@@ -726,6 +860,43 @@ for(i in 1:100){
 lines(x=x, y=y_true)
 points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col=&quot;red&quot;, pch=19)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/bayesian%20fitting-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-bayesian-fitting-1">
+Past versions of "bayesian fitting-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-bayesian-fitting-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/bayesian fitting-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="reparametrization-of-cdf-exponential-function"
 class="section level2">
@@ -755,6 +926,43 @@ for(Q in c(1,2,4,8,12,16,20,24)){
 abline(h = 0.9, col=&quot;red&quot;, lty=2)
 abline(v = c(1,2,4,8,12,16,20,24), col=&quot;blue&quot;, lty=2)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/different%20Qs-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-different-Qs-1">
+Past versions of "different Qs-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-different-Qs-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/different Qs-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The same keeps whrn the survival is lower than 100%, the 90% quantile
 is calculated on the estimated survival. For example, with a final
 survival of 75%, the 90% quantile for <em>Q</em> is calculated as <span
@@ -773,6 +981,43 @@ abline(h=0.75, col=&quot;green&quot;)
 abline(h = 0.9*0.75, col=&quot;red&quot;, lty=2)
 abline(v = c(1,2,4,8,12,16,20,24), col=&quot;blue&quot;, lty=2)</code></pre>
 <p><img src="figure/1.Anhydrobiosis_Index.Rmd/different%20QsP75-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-different-QsP75-1">
+Past versions of "different QsP75-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-different-QsP75-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/1.Anhydrobiosis_Index.Rmd/different QsP75-1.png" target="_blank">7675a6f</a>
+</td>
+<td>
+Matteo Vecchi
+</td>
+<td>
+2022-04-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>With this formulation, <em>Q</em> is independent from the overall
 survival probability and has an intuitive interpretation.</p>
 </div>
@@ -805,27 +1050,28 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.8     purrr_0.3.4    
-[5] readr_2.1.2     tidyr_1.2.0     tibble_3.1.6    ggplot2_3.3.5  
-[9] tidyverse_1.3.1
+ [1] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.8     purrr_0.3.4    
+ [5] readr_2.1.2     tidyr_1.2.0     tibble_3.1.6    ggplot2_3.3.5  
+ [9] tidyverse_1.3.1 workflowr_1.7.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3     lubridate_1.8.0  assertthat_0.2.1 rprojroot_2.0.3 
- [5] digest_0.6.29    utf8_1.2.2       R6_2.5.1         cellranger_1.1.0
- [9] backports_1.4.1  reprex_2.0.1     evaluate_0.15    httr_1.4.2      
-[13] highr_0.9        pillar_1.7.0     rlang_1.0.2      readxl_1.4.0    
-[17] rstudioapi_0.13  jquerylib_0.1.4  rmarkdown_2.13   munsell_0.5.0   
-[21] broom_0.7.12     compiler_4.1.3   httpuv_1.6.5     modelr_0.1.8    
-[25] xfun_0.30        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.2
-[29] workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0      
-[33] dbplyr_2.1.1     withr_2.5.0      later_1.3.0      grid_4.1.3      
-[37] jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2       
-[41] git2r_0.30.1     magrittr_2.0.3   scales_1.2.0     cli_3.2.0       
-[45] stringi_1.7.6    farver_2.1.0     fs_1.5.2         promises_1.2.0.1
-[49] xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2  
-[53] vctrs_0.4.0      tools_4.1.3      glue_1.6.2       hms_1.1.1       
-[57] fastmap_1.1.0    yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2     
-[61] knitr_1.38       haven_2.4.3      sass_0.4.1      </code></pre>
+ [1] Rcpp_1.0.8.3     lubridate_1.8.0  getPass_0.2-2    ps_1.6.0        
+ [5] assertthat_0.2.1 rprojroot_2.0.3  digest_0.6.29    utf8_1.2.2      
+ [9] R6_2.5.1         cellranger_1.1.0 backports_1.4.1  reprex_2.0.1    
+[13] evaluate_0.15    highr_0.9        httr_1.4.2       pillar_1.7.0    
+[17] rlang_1.0.2      readxl_1.4.0     rstudioapi_0.13  whisker_0.4     
+[21] callr_3.7.0      jquerylib_0.1.4  rmarkdown_2.13   munsell_0.5.0   
+[25] broom_0.7.12     compiler_4.1.3   httpuv_1.6.5     modelr_0.1.8    
+[29] xfun_0.30        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.2
+[33] fansi_1.0.3      withr_2.5.0      crayon_1.5.1     tzdb_0.3.0      
+[37] dbplyr_2.1.1     later_1.3.0      grid_4.1.3       jsonlite_1.8.0  
+[41] gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2        git2r_0.30.1    
+[45] magrittr_2.0.3   scales_1.2.0     cli_3.2.0        stringi_1.7.6   
+[49] farver_2.1.0     fs_1.5.2         promises_1.2.0.1 xml2_1.3.3      
+[53] bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2   vctrs_0.4.0     
+[57] tools_4.1.3      glue_1.6.2       hms_1.1.1        processx_3.5.3  
+[61] fastmap_1.1.0    yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2     
+[65] knitr_1.38       haven_2.4.3      sass_0.4.1      </code></pre>
 </div>
 </div>
 
