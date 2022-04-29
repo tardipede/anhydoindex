@@ -92,47 +92,69 @@ points(x=c(1,2,4,12,24), y=c(0.22,0.30,0.50,0.77,0.74), col="red", pch=19)
 
 ## Reparametrization of CDF exponential function
 The $\lambda$ parameter is not easy to interpret. I t is possible however, to reparametrize the function to a new parameter that describe the time needed to reach the motility of a certain proportion of the surviving animals.  
-The new parameter (that we will call *Q*), describe the time needed to reach a certain proportion (*pm*) proportion of animals to be motile:
+The new parameter (that we will call *Q~pm~*), describe the time needed to reach a certain proportion (*pm*) proportion of animals to be motile:
 $$ \lambda = \frac{-log(1-pm)}{Q} $$
-If we set *pm* = 0.9, and *Q* is 12, it means that (among the surviving animals), 90% of them will recover their motility in 12 hours after rehydration. 
+If we set *pm* = 0.9, and then *Q~0.9~* is 12, it means that (among the surviving animals), 90% of them will recover their motility in 12 hours after rehydration. 
 With *pm* set to 0.9, and assuming a survival of 100%, the different recovery speed would look like this:  
 
 ```{r different Qs}
 x = seq(0,25,0.1)
-plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "Recovery speed with different Qs", 
+plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "", 
      cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt="n")
-axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
+axis(side=1, at=c(1,4,8,12,16,20,24), labels = TRUE)
 
-for(Q in c(1,2,4,8,12,16,20,24)){
+for(Q in c(1,4,8,12,16,20,24)){
   lambda = -log(1-0.9)/Q
   y = (1 - exp(-lambda*x))*1
   lines(x=x, y=y, type="l", col ="black")
 }
 abline(h = 0.9, col="red", lty=2)
-abline(v = c(1,2,4,8,12,16,20,24), col="blue", lty=2)
+abline(v = c(1,4,8,12,16,20,24), col="blue", lty=2)
+axis(3, at = c(1,4,8,12,16,20,24), 
+     labels = paste0("Q0.9 = ",c(1,4,8,12,16,20,24)), 
+     lwd = 0, col.axis = "blue",cex.axis=0.75)
+
+
 ```
 
-The same keeps whrn the survival is lower than 100%, the 90% quantile is calculated on the estimated survival. For example, with a final survival of 75%, the 90% quantile for *Q* is calculated as $0.75*0.90 = 0.675$.  
+The same keeps whrn the survival is lower than 100%, the 90% quantile is calculated on the estimated survival. For example, with a final survival of 75%, the 90% quantile for *Q~0.9~* is calculated as $0.75*0.90 = 0.675$.  
 
 ```{r different QsP75}
 x = seq(0,25,0.1)
-plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "Recovery speed with different Qs", 
+plot(x=c(0,25), y=c(0,1), type="n", xlab="time(hours)",ylab="Proportion of motile animals", main = "", 
      cex.axis=0.75, cex.main=0.9, ylim=c(0,1), xaxt="n")
-axis(side=1, at=c(1,2,4,8,12,16,20,24), labels = TRUE)
+axis(side=1, at=c(1,4,8,12,16,20,24), labels = TRUE)
 
-for(Q in c(1,2,4,8,12,16,20,24)){
+for(Q in c(1,4,8,12,16,20,24)){
   lambda = -log(1-0.9)/Q
   y = (1 - exp(-lambda*x))*0.75
   lines(x=x, y=y, type="l", col ="black")
 }
 abline(h=0.75, col="green")
 abline(h = 0.9*0.75, col="red", lty=2)
-abline(v = c(1,2,4,8,12,16,20,24), col="blue", lty=2)
+abline(v = c(1,4,8,12,16,20,24), col="blue", lty=2)
+axis(3, at = c(1,4,8,12,16,20,24), 
+     labels = paste0("Q0.9 = ",c(1,4,8,12,16,20,24)), 
+     lwd = 0, col.axis = "blue",cex.axis=0.75)
 ```
 
-With this formulation, *Q* is independent from the overall survival probability and has an intuitive interpretation.  
+With this formulation, *Q~pm~* is independent from the overall survival probability and has an intuitive interpretation.  
 
-## Binding speed between 0 and 1
+## Priors for Q~pm~ and p in Bayesian estimation
+As we are estimating the *p* and *Q~pm~* parameters with Bayesian methods, we have to specify priors for them. The priors allow us to bind their possible value to only the onses that we could observe. The *p* parameter is a probability, so it must be bound between 0 and 1, whereas *Q~pm~* is expressed in hours, so it can only take positive values.  
+For *p* we can set au uniform prior between 0 and 1.
+$$ p \sim Dunif(0,1)$$
+For *Q~pm~* we will use instead a normal distribution woth mean 0 and a very high sd (100), truncated at 0 to kep only positive values.
+$$ Q{pm} \sim N(0,100)T(0,)$$
+This prior is very weakly informative, specially in the range of realistic values of *Q~pm~*. According to previous studies on tardigrades showed that surviving animals usually recover their motility not after 24 hours.  
+```{r priors on Q,fig.dim = c(8, 4.5)}
+par(mfrow=c(1,2))
+plot(density(rnorm(1000000,0,100)), xlim=c(0,500),xlab="Hours", main="Prior on Q - N(0,100)T(0,)")
+plot(density(rnorm(1000000,0,100)), xlim=c(0,48),xlab="Hours", main="Prior on Q - N(0,100)T(0,)")
+```
+This priors, this prior allows all positive values, but will avoid for *Q~pm~* to drift to unrealistic high values when *p* is very low.  
+
+
 
 
 
