@@ -398,7 +398,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -409,8 +409,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -423,9 +423,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>Anhydrobiosis_index/</code> <span
@@ -448,18 +448,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -550,15 +553,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreec8010de450a295fe7b51b1f0022ee67120cf63dftargetblankc8010dea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextree3df0280948d3c38d4db9aa3d9d864c796333d21etargetblank3df0280a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/tardipede/anhydoindex/tree/c8010de450a295fe7b51b1f0022ee67120cf63df" target="_blank">c8010de</a>
+<a href="https://github.com/tardipede/anhydoindex/tree/3df0280948d3c38d4db9aa3d9d864c796333d21e" target="_blank">3df0280</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextreec8010de450a295fe7b51b1f0022ee67120cf63dftargetblankc8010dea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomtardipedeanhydoindextree3df0280948d3c38d4db9aa3d9d864c796333d21etargetblank3df0280a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -568,7 +571,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/tardipede/anhydoindex/tree/c8010de450a295fe7b51b1f0022ee67120cf63df" target="_blank">c8010de</a>.
+<a href="https://github.com/tardipede/anhydoindex/tree/3df0280948d3c38d4db9aa3d9d864c796333d21e" target="_blank">3df0280</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -588,7 +591,16 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
     Ignored:    code/.DS_Store
+    Ignored:    code/.Rhistory
     Ignored:    data/.DS_Store
+
+Unstaged changes:
+    Modified:   analysis/1.Anhydrobiosis_Index.Rmd
+    Modified:   analysis/2.Milnesium_anhydrobiosis.Rmd
+    Modified:   analysis/bibliography.bib
+    Modified:   code/AhI_functions.R
+    Modified:   output/model_Milnesium.rds
+    Deleted:    temporary_code.R
 
 </code></pre>
 <p>
@@ -618,7 +630,17 @@ library(ggstance)
 library(RColorBrewer)
 library(R2jags)
 library(bayestestR)
+library(xfun)    # Download file from html report
 source(&quot;./code/AhI_functions.R&quot;)</code></pre>
+<p>We reanalyze the data from <span class="citation">Wojciechowska et
+al. (2021)</span> about the effect of BHAM, a known AOX (mithochondrial
+alternative oxidase) inhibitor on the tardigrade <em>Milnesium
+inceptum</em>. Three different anhydrobiosis duration (3, 30 and 60
+days) and 3 different BHAN concentrations (control 0, 0.1 mM, 0.2 mM)
+were tested.<br />
+The raw data was reformatted to be compatible with the anhydrobiosis
+index script, and can be downloaded here:
+<a href="data:text/plain;base64,YW5oeWRyb2Jpb3Npc190aW1lCXRyZWF0bWVudAlncm91X0lECXRpbWVfbWluCWFjdGl2ZQ0KMwljb250cm9sCTEJMTAJMA0KMwljb250cm9sCTEJMTAJMQ0KMwljb250cm9sCTEJMTAJMA0KMwljb250cm9sCTEJMjAJMw0KMwljb250cm9sCTEJMjAJNA0KMwljb250cm9sCTEJMjAJNg0KMwljb250cm9sCTEJMzAJNQ0KMwljb250cm9sCTEJMzAJNQ0KMwljb250cm9sCTEJMzAJNw0KMwljb250cm9sCTEJNDAJOA0KMwljb250cm9sCTEJNDAJNg0KMwljb250cm9sCTEJNDAJOA0KMwljb250cm9sCTEJNjAJOQ0KMwljb250cm9sCTEJNjAJNw0KMwljb250cm9sCTEJNjAJOA0KMwljb250cm9sCTEJOTAJOQ0KMwljb250cm9sCTEJOTAJNw0KMwljb250cm9sCTEJOTAJOA0KMwljb250cm9sCTEJMTIwCTkNCjMJY29udHJvbAkxCTEyMAk4DQozCWNvbnRyb2wJMQkxMjAJOA0KMwljb250cm9sCTEJMTgwCTkNCjMJY29udHJvbAkxCTE4MAk4DQozCWNvbnRyb2wJMQkxODAJMTANCjMJY29udHJvbAkxCTI0MAk5DQozCWNvbnRyb2wJMQkyNDAJOA0KMwljb250cm9sCTEJMjQwCTEwDQozCWNvbnRyb2wJMQkzNjAJOQ0KMwljb250cm9sCTEJMzYwCTgNCjMJY29udHJvbAkxCTM2MAkxMA0KMwljb250cm9sCTEJNDgwCTkNCjMJY29udHJvbAkxCTQ4MAk4DQozCWNvbnRyb2wJMQk0ODAJMTANCjMJY29udHJvbAkxCTE0NDAJOQ0KMwljb250cm9sCTEJMTQ0MAk4DQozCWNvbnRyb2wJMQkxNDQwCTEwDQozCTAuMSBtTSBCSEFNCTIJMTAJMA0KMwkwLjEgbU0gQkhBTQkyCTEwCTANCjMJMC4xIG1NIEJIQU0JMgkxMAkwDQozCTAuMSBtTSBCSEFNCTIJMjAJMA0KMwkwLjEgbU0gQkhBTQkyCTIwCTMNCjMJMC4xIG1NIEJIQU0JMgkyMAkwDQozCTAuMSBtTSBCSEFNCTIJMzAJMA0KMwkwLjEgbU0gQkhBTQkyCTMwCTUNCjMJMC4xIG1NIEJIQU0JMgkzMAkyDQozCTAuMSBtTSBCSEFNCTIJNDAJMQ0KMwkwLjEgbU0gQkhBTQkyCTQwCTcNCjMJMC4xIG1NIEJIQU0JMgk0MAk0DQozCTAuMSBtTSBCSEFNCTIJNjAJNA0KMwkwLjEgbU0gQkhBTQkyCTYwCTkNCjMJMC4xIG1NIEJIQU0JMgk2MAk2DQozCTAuMSBtTSBCSEFNCTIJOTAJNA0KMwkwLjEgbU0gQkhBTQkyCTkwCTEwDQozCTAuMSBtTSBCSEFNCTIJOTAJOA0KMwkwLjEgbU0gQkhBTQkyCTEyMAk2DQozCTAuMSBtTSBCSEFNCTIJMTIwCTEwDQozCTAuMSBtTSBCSEFNCTIJMTIwCTgNCjMJMC4xIG1NIEJIQU0JMgkxODAJNg0KMwkwLjEgbU0gQkhBTQkyCTE4MAkxMA0KMwkwLjEgbU0gQkhBTQkyCTE4MAk5DQozCTAuMSBtTSBCSEFNCTIJMjQwCTYNCjMJMC4xIG1NIEJIQU0JMgkyNDAJMTANCjMJMC4xIG1NIEJIQU0JMgkyNDAJMTANCjMJMC4xIG1NIEJIQU0JMgkzNjAJNw0KMwkwLjEgbU0gQkhBTQkyCTM2MAkxMA0KMwkwLjEgbU0gQkhBTQkyCTM2MAkxMA0KMwkwLjEgbU0gQkhBTQkyCTQ4MAk3DQozCTAuMSBtTSBCSEFNCTIJNDgwCTEwDQozCTAuMSBtTSBCSEFNCTIJNDgwCTEwDQozCTAuMSBtTSBCSEFNCTIJMTQ0MAk5DQozCTAuMSBtTSBCSEFNCTIJMTQ0MAkxMA0KMwkwLjEgbU0gQkhBTQkyCTE0NDAJMTANCjMJMC4yIG1NIEJIQU0JMwkxMAkwDQozCTAuMiBtTSBCSEFNCTMJMTAJMA0KMwkwLjIgbU0gQkhBTQkzCTEwCTANCjMJMC4yIG1NIEJIQU0JMwkyMAkwDQozCTAuMiBtTSBCSEFNCTMJMjAJMA0KMwkwLjIgbU0gQkhBTQkzCTIwCTANCjMJMC4yIG1NIEJIQU0JMwkzMAkwDQozCTAuMiBtTSBCSEFNCTMJMzAJMA0KMwkwLjIgbU0gQkhBTQkzCTMwCTENCjMJMC4yIG1NIEJIQU0JMwk0MAkwDQozCTAuMiBtTSBCSEFNCTMJNDAJMg0KMwkwLjIgbU0gQkhBTQkzCTQwCTMNCjMJMC4yIG1NIEJIQU0JMwk2MAkwDQozCTAuMiBtTSBCSEFNCTMJNjAJNA0KMwkwLjIgbU0gQkhBTQkzCTYwCTUNCjMJMC4yIG1NIEJIQU0JMwk5MAkxDQozCTAuMiBtTSBCSEFNCTMJOTAJNA0KMwkwLjIgbU0gQkhBTQkzCTkwCTUNCjMJMC4yIG1NIEJIQU0JMwkxMjAJNA0KMwkwLjIgbU0gQkhBTQkzCTEyMAk3DQozCTAuMiBtTSBCSEFNCTMJMTIwCTUNCjMJMC4yIG1NIEJIQU0JMwkxODAJNQ0KMwkwLjIgbU0gQkhBTQkzCTE4MAk3DQozCTAuMiBtTSBCSEFNCTMJMTgwCTYNCjMJMC4yIG1NIEJIQU0JMwkyNDAJNQ0KMwkwLjIgbU0gQkhBTQkzCTI0MAk4DQozCTAuMiBtTSBCSEFNCTMJMjQwCTYNCjMJMC4yIG1NIEJIQU0JMwkzNjAJOA0KMwkwLjIgbU0gQkhBTQkzCTM2MAkxMA0KMwkwLjIgbU0gQkhBTQkzCTM2MAk4DQozCTAuMiBtTSBCSEFNCTMJNDgwCTgNCjMJMC4yIG1NIEJIQU0JMwk0ODAJMTANCjMJMC4yIG1NIEJIQU0JMwk0ODAJOA0KMwkwLjIgbU0gQkhBTQkzCTE0NDAJOA0KMwkwLjIgbU0gQkhBTQkzCTE0NDAJMTANCjMJMC4yIG1NIEJIQU0JMwkxNDQwCTgNCjMwCWNvbnRyb2wJMQkxMAkwDQozMAljb250cm9sCTEJMTAJMA0KMzAJY29udHJvbAkxCTEwCTANCjMwCWNvbnRyb2wJMQkyMAkwDQozMAljb250cm9sCTEJMjAJMA0KMzAJY29udHJvbAkxCTIwCTANCjMwCWNvbnRyb2wJMQkzMAkzDQozMAljb250cm9sCTEJMzAJMQ0KMzAJY29udHJvbAkxCTMwCTANCjMwCWNvbnRyb2wJMQk0MAk4DQozMAljb250cm9sCTEJNDAJMQ0KMzAJY29udHJvbAkxCTQwCTANCjMwCWNvbnRyb2wJMQk2MAk4DQozMAljb250cm9sCTEJNjAJMw0KMzAJY29udHJvbAkxCTYwCTQNCjMwCWNvbnRyb2wJMQk5MAk4DQozMAljb250cm9sCTEJOTAJNg0KMzAJY29udHJvbAkxCTkwCTUNCjMwCWNvbnRyb2wJMQkxMjAJOA0KMzAJY29udHJvbAkxCTEyMAk3DQozMAljb250cm9sCTEJMTIwCTUNCjMwCWNvbnRyb2wJMQkxODAJOA0KMzAJY29udHJvbAkxCTE4MAk4DQozMAljb250cm9sCTEJMTgwCTYNCjMwCWNvbnRyb2wJMQkyNDAJOQ0KMzAJY29udHJvbAkxCTI0MAk5DQozMAljb250cm9sCTEJMjQwCTcNCjMwCWNvbnRyb2wJMQkzNjAJOQ0KMzAJY29udHJvbAkxCTM2MAkxMA0KMzAJY29udHJvbAkxCTM2MAk3DQozMAljb250cm9sCTEJNDgwCTkNCjMwCWNvbnRyb2wJMQk0ODAJMTANCjMwCWNvbnRyb2wJMQk0ODAJNw0KMzAJY29udHJvbAkxCTE0NDAJOQ0KMzAJY29udHJvbAkxCTE0NDAJMTANCjMwCWNvbnRyb2wJMQkxNDQwCTcNCjMwCTAuMSBtTSBCSEFNCTIJMTAJMA0KMzAJMC4xIG1NIEJIQU0JMgkxMAkwDQozMAkwLjEgbU0gQkhBTQkyCTEwCTANCjMwCTAuMSBtTSBCSEFNCTIJMjAJMQ0KMzAJMC4xIG1NIEJIQU0JMgkyMAkwDQozMAkwLjEgbU0gQkhBTQkyCTIwCTANCjMwCTAuMSBtTSBCSEFNCTIJMzAJMw0KMzAJMC4xIG1NIEJIQU0JMgkzMAkwDQozMAkwLjEgbU0gQkhBTQkyCTMwCTANCjMwCTAuMSBtTSBCSEFNCTIJNDAJNA0KMzAJMC4xIG1NIEJIQU0JMgk0MAkwDQozMAkwLjEgbU0gQkhBTQkyCTQwCTANCjMwCTAuMSBtTSBCSEFNCTIJNjAJNg0KMzAJMC4xIG1NIEJIQU0JMgk2MAkwDQozMAkwLjEgbU0gQkhBTQkyCTYwCTINCjMwCTAuMSBtTSBCSEFNCTIJOTAJNg0KMzAJMC4xIG1NIEJIQU0JMgk5MAk1DQozMAkwLjEgbU0gQkhBTQkyCTkwCTUNCjMwCTAuMSBtTSBCSEFNCTIJMTIwCTgNCjMwCTAuMSBtTSBCSEFNCTIJMTIwCTUNCjMwCTAuMSBtTSBCSEFNCTIJMTIwCTYNCjMwCTAuMSBtTSBCSEFNCTIJMTgwCTkNCjMwCTAuMSBtTSBCSEFNCTIJMTgwCTUNCjMwCTAuMSBtTSBCSEFNCTIJMTgwCTYNCjMwCTAuMSBtTSBCSEFNCTIJMjQwCTEwDQozMAkwLjEgbU0gQkhBTQkyCTI0MAk1DQozMAkwLjEgbU0gQkhBTQkyCTI0MAk3DQozMAkwLjEgbU0gQkhBTQkyCTM2MAkxMA0KMzAJMC4xIG1NIEJIQU0JMgkzNjAJNQ0KMzAJMC4xIG1NIEJIQU0JMgkzNjAJNw0KMzAJMC4xIG1NIEJIQU0JMgk0ODAJMTANCjMwCTAuMSBtTSBCSEFNCTIJNDgwCTUNCjMwCTAuMSBtTSBCSEFNCTIJNDgwCTgNCjMwCTAuMSBtTSBCSEFNCTIJMTQ0MAkxMA0KMzAJMC4xIG1NIEJIQU0JMgkxNDQwCTYNCjMwCTAuMSBtTSBCSEFNCTIJMTQ0MAk4DQozMAkwLjIgbU0gQkhBTQkzCTEwCTANCjMwCTAuMiBtTSBCSEFNCTMJMTAJMA0KMzAJMC4yIG1NIEJIQU0JMwkxMAkwDQozMAkwLjIgbU0gQkhBTQkzCTIwCTENCjMwCTAuMiBtTSBCSEFNCTMJMjAJMA0KMzAJMC4yIG1NIEJIQU0JMwkyMAkwDQozMAkwLjIgbU0gQkhBTQkzCTMwCTENCjMwCTAuMiBtTSBCSEFNCTMJMzAJMA0KMzAJMC4yIG1NIEJIQU0JMwkzMAkwDQozMAkwLjIgbU0gQkhBTQkzCTQwCTINCjMwCTAuMiBtTSBCSEFNCTMJNDAJMA0KMzAJMC4yIG1NIEJIQU0JMwk0MAkwDQozMAkwLjIgbU0gQkhBTQkzCTYwCTINCjMwCTAuMiBtTSBCSEFNCTMJNjAJMA0KMzAJMC4yIG1NIEJIQU0JMwk2MAkwDQozMAkwLjIgbU0gQkhBTQkzCTkwCTINCjMwCTAuMiBtTSBCSEFNCTMJOTAJMA0KMzAJMC4yIG1NIEJIQU0JMwk5MAkwDQozMAkwLjIgbU0gQkhBTQkzCTEyMAkyDQozMAkwLjIgbU0gQkhBTQkzCTEyMAkwDQozMAkwLjIgbU0gQkhBTQkzCTEyMAkwDQozMAkwLjIgbU0gQkhBTQkzCTE4MAkzDQozMAkwLjIgbU0gQkhBTQkzCTE4MAkwDQozMAkwLjIgbU0gQkhBTQkzCTE4MAkwDQozMAkwLjIgbU0gQkhBTQkzCTI0MAkzDQozMAkwLjIgbU0gQkhBTQkzCTI0MAk0DQozMAkwLjIgbU0gQkhBTQkzCTI0MAkxDQozMAkwLjIgbU0gQkhBTQkzCTM2MAk0DQozMAkwLjIgbU0gQkhBTQkzCTM2MAk0DQozMAkwLjIgbU0gQkhBTQkzCTM2MAkxDQozMAkwLjIgbU0gQkhBTQkzCTQ4MAk2DQozMAkwLjIgbU0gQkhBTQkzCTQ4MAk1DQozMAkwLjIgbU0gQkhBTQkzCTQ4MAkxDQozMAkwLjIgbU0gQkhBTQkzCTE0NDAJOQ0KMzAJMC4yIG1NIEJIQU0JMwkxNDQwCTYNCjMwCTAuMiBtTSBCSEFNCTMJMTQ0MAkyDQo2MAljb250cm9sCTEJMTAJMA0KNjAJY29udHJvbAkxCTEwCTANCjYwCWNvbnRyb2wJMQkxMAkwDQo2MAljb250cm9sCTEJMTAJMA0KNjAJY29udHJvbAkxCTIwCTANCjYwCWNvbnRyb2wJMQkyMAkwDQo2MAljb250cm9sCTEJMjAJMA0KNjAJY29udHJvbAkxCTIwCTANCjYwCWNvbnRyb2wJMQkzMAkxDQo2MAljb250cm9sCTEJMzAJMA0KNjAJY29udHJvbAkxCTMwCTINCjYwCWNvbnRyb2wJMQkzMAkwDQo2MAljb250cm9sCTEJNDAJMg0KNjAJY29udHJvbAkxCTQwCTENCjYwCWNvbnRyb2wJMQk0MAk0DQo2MAljb250cm9sCTEJNDAJMQ0KNjAJY29udHJvbAkxCTYwCTUNCjYwCWNvbnRyb2wJMQk2MAkxDQo2MAljb250cm9sCTEJNjAJNg0KNjAJY29udHJvbAkxCTYwCTQNCjYwCWNvbnRyb2wJMQk5MAk1DQo2MAljb250cm9sCTEJOTAJMg0KNjAJY29udHJvbAkxCTkwCTYNCjYwCWNvbnRyb2wJMQk5MAk2DQo2MAljb250cm9sCTEJMTIwCTYNCjYwCWNvbnRyb2wJMQkxMjAJNA0KNjAJY29udHJvbAkxCTEyMAk4DQo2MAljb250cm9sCTEJMTIwCTYNCjYwCWNvbnRyb2wJMQkxODAJNw0KNjAJY29udHJvbAkxCTE4MAk1DQo2MAljb250cm9sCTEJMTgwCTgNCjYwCWNvbnRyb2wJMQkxODAJNw0KNjAJY29udHJvbAkxCTI0MAk4DQo2MAljb250cm9sCTEJMjQwCTUNCjYwCWNvbnRyb2wJMQkyNDAJOA0KNjAJY29udHJvbAkxCTI0MAk3DQo2MAljb250cm9sCTEJMzYwCTkNCjYwCWNvbnRyb2wJMQkzNjAJNg0KNjAJY29udHJvbAkxCTM2MAk4DQo2MAljb250cm9sCTEJMzYwCTcNCjYwCWNvbnRyb2wJMQk0ODAJMTANCjYwCWNvbnRyb2wJMQk0ODAJOQ0KNjAJY29udHJvbAkxCTQ4MAk4DQo2MAljb250cm9sCTEJNDgwCTgNCjYwCWNvbnRyb2wJMQkxNDQwCTEwDQo2MAljb250cm9sCTEJMTQ0MAk5DQo2MAljb250cm9sCTEJMTQ0MAk4DQo2MAljb250cm9sCTEJMTQ0MAk5DQo2MAkwLjEgbU0gQkhBTQkyCTEwCTANCjYwCTAuMSBtTSBCSEFNCTIJMTAJMA0KNjAJMC4xIG1NIEJIQU0JMgkxMAkwDQo2MAkwLjEgbU0gQkhBTQkyCTEwCTANCjYwCTAuMSBtTSBCSEFNCTIJMjAJMA0KNjAJMC4xIG1NIEJIQU0JMgkyMAkwDQo2MAkwLjEgbU0gQkhBTQkyCTIwCTANCjYwCTAuMSBtTSBCSEFNCTIJMjAJMA0KNjAJMC4xIG1NIEJIQU0JMgkzMAkwDQo2MAkwLjEgbU0gQkhBTQkyCTMwCTANCjYwCTAuMSBtTSBCSEFNCTIJMzAJMA0KNjAJMC4xIG1NIEJIQU0JMgkzMAkwDQo2MAkwLjEgbU0gQkhBTQkyCTQwCTENCjYwCTAuMSBtTSBCSEFNCTIJNDAJMg0KNjAJMC4xIG1NIEJIQU0JMgk0MAkxDQo2MAkwLjEgbU0gQkhBTQkyCTQwCTANCjYwCTAuMSBtTSBCSEFNCTIJNjAJMg0KNjAJMC4xIG1NIEJIQU0JMgk2MAkyDQo2MAkwLjEgbU0gQkhBTQkyCTYwCTENCjYwCTAuMSBtTSBCSEFNCTIJNjAJMA0KNjAJMC4xIG1NIEJIQU0JMgk5MAk0DQo2MAkwLjEgbU0gQkhBTQkyCTkwCTQNCjYwCTAuMSBtTSBCSEFNCTIJOTAJMQ0KNjAJMC4xIG1NIEJIQU0JMgk5MAkwDQo2MAkwLjEgbU0gQkhBTQkyCTEyMAk1DQo2MAkwLjEgbU0gQkhBTQkyCTEyMAk0DQo2MAkwLjEgbU0gQkhBTQkyCTEyMAkyDQo2MAkwLjEgbU0gQkhBTQkyCTEyMAkwDQo2MAkwLjEgbU0gQkhBTQkyCTE4MAk1DQo2MAkwLjEgbU0gQkhBTQkyCTE4MAk1DQo2MAkwLjEgbU0gQkhBTQkyCTE4MAkzDQo2MAkwLjEgbU0gQkhBTQkyCTE4MAkwDQo2MAkwLjEgbU0gQkhBTQkyCTI0MAk3DQo2MAkwLjEgbU0gQkhBTQkyCTI0MAk2DQo2MAkwLjEgbU0gQkhBTQkyCTI0MAk1DQo2MAkwLjEgbU0gQkhBTQkyCTI0MAkwDQo2MAkwLjEgbU0gQkhBTQkyCTM2MAk3DQo2MAkwLjEgbU0gQkhBTQkyCTM2MAk2DQo2MAkwLjEgbU0gQkhBTQkyCTM2MAk1DQo2MAkwLjEgbU0gQkhBTQkyCTM2MAkwDQo2MAkwLjEgbU0gQkhBTQkyCTQ4MAk3DQo2MAkwLjEgbU0gQkhBTQkyCTQ4MAk2DQo2MAkwLjEgbU0gQkhBTQkyCTQ4MAk1DQo2MAkwLjEgbU0gQkhBTQkyCTQ4MAkwDQo2MAkwLjEgbU0gQkhBTQkyCTE0NDAJNw0KNjAJMC4xIG1NIEJIQU0JMgkxNDQwCTcNCjYwCTAuMSBtTSBCSEFNCTIJMTQ0MAk3DQo2MAkwLjEgbU0gQkhBTQkyCTE0NDAJMw0KNjAJMC4yIG1NIEJIQU0JMwkxMAkwDQo2MAkwLjIgbU0gQkhBTQkzCTEwCTANCjYwCTAuMiBtTSBCSEFNCTMJMTAJMA0KNjAJMC4yIG1NIEJIQU0JMwkxMAkwDQo2MAkwLjIgbU0gQkhBTQkzCTIwCTANCjYwCTAuMiBtTSBCSEFNCTMJMjAJMA0KNjAJMC4yIG1NIEJIQU0JMwkyMAkwDQo2MAkwLjIgbU0gQkhBTQkzCTIwCTANCjYwCTAuMiBtTSBCSEFNCTMJMzAJMA0KNjAJMC4yIG1NIEJIQU0JMwkzMAkwDQo2MAkwLjIgbU0gQkhBTQkzCTMwCTANCjYwCTAuMiBtTSBCSEFNCTMJMzAJMA0KNjAJMC4yIG1NIEJIQU0JMwk0MAkwDQo2MAkwLjIgbU0gQkhBTQkzCTQwCTANCjYwCTAuMiBtTSBCSEFNCTMJNDAJMQ0KNjAJMC4yIG1NIEJIQU0JMwk0MAkwDQo2MAkwLjIgbU0gQkhBTQkzCTYwCTANCjYwCTAuMiBtTSBCSEFNCTMJNjAJMA0KNjAJMC4yIG1NIEJIQU0JMwk2MAkxDQo2MAkwLjIgbU0gQkhBTQkzCTYwCTANCjYwCTAuMiBtTSBCSEFNCTMJOTAJMg0KNjAJMC4yIG1NIEJIQU0JMwk5MAkwDQo2MAkwLjIgbU0gQkhBTQkzCTkwCTENCjYwCTAuMiBtTSBCSEFNCTMJOTAJMA0KNjAJMC4yIG1NIEJIQU0JMwkxMjAJMg0KNjAJMC4yIG1NIEJIQU0JMwkxMjAJMA0KNjAJMC4yIG1NIEJIQU0JMwkxMjAJMg0KNjAJMC4yIG1NIEJIQU0JMwkxMjAJMA0KNjAJMC4yIG1NIEJIQU0JMwkxODAJMg0KNjAJMC4yIG1NIEJIQU0JMwkxODAJMQ0KNjAJMC4yIG1NIEJIQU0JMwkxODAJMw0KNjAJMC4yIG1NIEJIQU0JMwkxODAJMA0KNjAJMC4yIG1NIEJIQU0JMwkyNDAJMw0KNjAJMC4yIG1NIEJIQU0JMwkyNDAJMQ0KNjAJMC4yIG1NIEJIQU0JMwkyNDAJNA0KNjAJMC4yIG1NIEJIQU0JMwkyNDAJMA0KNjAJMC4yIG1NIEJIQU0JMwkzNjAJNA0KNjAJMC4yIG1NIEJIQU0JMwkzNjAJMQ0KNjAJMC4yIG1NIEJIQU0JMwkzNjAJNA0KNjAJMC4yIG1NIEJIQU0JMwkzNjAJMA0KNjAJMC4yIG1NIEJIQU0JMwk0ODAJNQ0KNjAJMC4yIG1NIEJIQU0JMwk0ODAJMQ0KNjAJMC4yIG1NIEJIQU0JMwk0ODAJNA0KNjAJMC4yIG1NIEJIQU0JMwk0ODAJMQ0KNjAJMC4yIG1NIEJIQU0JMwkxNDQwCTYNCjYwCTAuMiBtTSBCSEFNCTMJMTQ0MAkzDQo2MAkwLjIgbU0gQkhBTQkzCTE0NDAJNQ0KNjAJMC4yIG1NIEJIQU0JMwkxNDQwCTE=" download="data_milnesium.txt">Download data_milnesium.txt</a></p>
 <pre class="r"><code>data_Milnesium = read.table(&quot;./data/data_milnesium.txt&quot;, header=T, sep=&quot;\t&quot;)
 data_Milnesium$total = rep(10, nrow(data_Milnesium)) # The total number of individuals analyzed for each replicate was 10
 data_Milnesium$time_hours = data_Milnesium$time_min/60 # Convert time to hours
@@ -627,49 +649,22 @@ data_Milnesium$exp_group = paste(data_Milnesium$anhydrobiosis_time, data_Milnesi
 ifelse(&quot;model_Milnesium.rds&quot; %in% list.files(&quot;./output&quot;),
        {model_Milnesium = readRDS(&quot;./output/model_Milnesium.rds&quot;)},
        {model_Milnesium = AhI_run_model(data_Milnesium, column_IDs = c(8,7,5,6))
-        saveRDS(model_Milnesium, file=&quot;./output/model_Milnesium.rds&quot;)})</code></pre>
-<pre class="r"><code>model_Milnesium_processed = AhI_analyze_model(model_Milnesium)</code></pre>
-<pre class="r"><code>plot_AhI(model_Milnesium_processed)</code></pre>
-<p><img src="figure/2.Milnesium_anhydrobiosis.Rmd/plot%20results-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-results-1">
-Past versions of "plot results-1.png"
-</button>
-</p>
-<div id="fig-no-spaces-plot-results-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/tardipede/anhydoindex/blob/7675a6f5826bf7f0a507f88d3e2199276746e06d/docs/figure/2.Milnesium_anhydrobiosis.Rmd/plot results-1.png" target="_blank">7675a6f</a>
-</td>
-<td>
-Matteo Vecchi
-</td>
-<td>
-2022-04-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="refs">
+        saveRDS(model_Milnesium, file=&quot;./output/model_Milnesium.rds&quot;)})
 
+model_Milnesium_processed = AhI_analyze_model(model_Milnesium)
+
+plot_AhI(model_Milnesium_processed)</code></pre>
+<p><img src="figure/2.Milnesium_anhydrobiosis.Rmd/run%20models-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div id="references" class="section level2">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Wojciechowska2021" class="csl-entry">
+Wojciechowska, Daria, Andonis Karachitos, Milena Roszkowska, Wiktor
+Rzeźniczak, Robert Sobkowiak, Łukasz Kaczmarek, Jakub Z Kosicki, and
+Hanna Kmita. 2021. <span>“Mitochondrial Alternative Oxidase Contributes
+to Successful Tardigrade Anhydrobiosis.”</span> <em>Frontiers in
+Zoology</em> 18 (1): 1–12.
+</div>
 </div>
 <br>
 <p>
@@ -695,32 +690,32 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] bayestestR_0.11.5  R2jags_0.7-1       rjags_4-12         coda_0.19-4       
- [5] RColorBrewer_1.1-3 ggstance_0.3.5     ggrepel_0.9.1      forcats_0.5.1     
- [9] stringr_1.4.0      dplyr_1.0.8        purrr_0.3.4        readr_2.1.2       
-[13] tidyr_1.2.0        tibble_3.1.6       ggplot2_3.3.5      tidyverse_1.3.1   
-[17] workflowr_1.7.0   
+ [1] xfun_0.30          bayestestR_0.11.5  R2jags_0.7-1       rjags_4-12        
+ [5] coda_0.19-4        RColorBrewer_1.1-3 ggstance_0.3.5     ggrepel_0.9.1     
+ [9] forcats_0.5.1      stringr_1.4.0      dplyr_1.0.8        purrr_0.3.4       
+[13] readr_2.1.2        tidyr_1.2.0        tibble_3.1.6       ggplot2_3.3.5     
+[17] tidyverse_1.3.1   
 
 loaded via a namespace (and not attached):
  [1] httr_1.4.2       sass_0.4.1       jsonlite_1.8.0   modelr_0.1.8    
- [5] bslib_0.3.1      datawizard_0.4.0 assertthat_0.2.1 getPass_0.2-2   
- [9] highr_0.9        cellranger_1.1.0 yaml_2.3.5       R2WinBUGS_2.1-21
-[13] pillar_1.7.0     backports_1.4.1  lattice_0.20-45  glue_1.6.2      
-[17] digest_0.6.29    promises_1.2.0.1 rvest_1.0.2      colorspace_2.0-3
-[21] htmltools_0.5.2  httpuv_1.6.5     pkgconfig_2.0.3  broom_0.7.12    
-[25] haven_2.4.3      scales_1.2.0     processx_3.5.3   whisker_0.4     
-[29] later_1.3.0      tzdb_0.3.0       git2r_0.30.1     farver_2.1.0    
-[33] generics_0.1.2   ellipsis_0.3.2   withr_2.5.0      cli_3.2.0       
-[37] magrittr_2.0.3   crayon_1.5.1     readxl_1.4.0     evaluate_0.15   
-[41] ps_1.6.0         fs_1.5.2         fansi_1.0.3      xml2_1.3.3      
-[45] tools_4.1.3      hms_1.1.1        lifecycle_1.0.1  munsell_0.5.0   
-[49] reprex_2.0.1     callr_3.7.0      compiler_4.1.3   jquerylib_0.1.4 
-[53] rlang_1.0.2      grid_4.1.3       rstudioapi_0.13  labeling_0.4.2  
-[57] rmarkdown_2.13   boot_1.3-28      gtable_0.3.0     abind_1.4-5     
-[61] DBI_1.1.2        R6_2.5.1         lubridate_1.8.0  knitr_1.38      
-[65] fastmap_1.1.0    utf8_1.2.2       rprojroot_2.0.3  insight_0.17.0  
-[69] stringi_1.7.6    parallel_4.1.3   Rcpp_1.0.8.3     vctrs_0.4.0     
-[73] dbplyr_2.1.1     tidyselect_1.1.2 xfun_0.30       </code></pre>
+ [5] bslib_0.3.1      datawizard_0.4.0 assertthat_0.2.1 highr_0.9       
+ [9] cellranger_1.1.0 yaml_2.3.5       R2WinBUGS_2.1-21 pillar_1.7.0    
+[13] backports_1.4.1  lattice_0.20-45  glue_1.6.2       digest_0.6.29   
+[17] promises_1.2.0.1 rvest_1.0.2      colorspace_2.0-3 htmltools_0.5.2 
+[21] httpuv_1.6.5     pkgconfig_2.0.3  broom_0.7.12     haven_2.4.3     
+[25] scales_1.2.0     later_1.3.0      tzdb_0.3.0       git2r_0.30.1    
+[29] farver_2.1.0     generics_0.1.2   ellipsis_0.3.2   withr_2.5.0     
+[33] cli_3.2.0        mime_0.12        magrittr_2.0.3   crayon_1.5.1    
+[37] readxl_1.4.0     evaluate_0.15    fs_1.5.2         fansi_1.0.3     
+[41] xml2_1.3.3       tools_4.1.3      hms_1.1.1        lifecycle_1.0.1 
+[45] munsell_0.5.0    reprex_2.0.1     compiler_4.1.3   jquerylib_0.1.4 
+[49] rlang_1.0.2      grid_4.1.3       rstudioapi_0.13  labeling_0.4.2  
+[53] rmarkdown_2.13   boot_1.3-28      gtable_0.3.0     abind_1.4-5     
+[57] DBI_1.1.2        R6_2.5.1         lubridate_1.8.0  knitr_1.38      
+[61] fastmap_1.1.0    utf8_1.2.2       workflowr_1.7.0  rprojroot_2.0.3 
+[65] insight_0.17.0   stringi_1.7.6    parallel_4.1.3   Rcpp_1.0.8.3    
+[69] vctrs_0.4.0      dbplyr_2.1.1     tidyselect_1.1.2</code></pre>
+</div>
 </div>
 
 

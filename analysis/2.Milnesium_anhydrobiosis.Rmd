@@ -22,7 +22,14 @@ library(ggstance)
 library(RColorBrewer)
 library(R2jags)
 library(bayestestR)
+library(xfun)    # Download file from html report
 source("./code/AhI_functions.R")
+```
+
+We reanalyze the data from @Wojciechowska2021 about the effect of BHAM, a known AOX (mithochondrial alternative oxidase) inhibitor on the tardigrade *Milnesium inceptum*. Three different anhydrobiosis duration (3, 30 and 60 days) and 3 different BHAM  concentrations (control 0, 0.1 mM, 0.2 mM) were tested.  
+The raw data was reformatted to be compatible with the anhydrobiosis index script, and can be downloaded here:
+```{r echo=FALSE}
+embed_file("./data/data_milnesium.txt")
 ```
 
 ```{r load data Milnesium}
@@ -32,24 +39,26 @@ data_Milnesium$time_hours = data_Milnesium$time_min/60 # Convert time to hours
 data_Milnesium$exp_group = paste(data_Milnesium$anhydrobiosis_time, data_Milnesium$treatment) # Merge together anhydrobiosis time and treatment
 ```
 
-```{r run models, results='hide', message=F, warning=F}
+```{r run models, results='hide', message=F, warning=F, fig.dim = c(8, 8)}
 # As it take times to run the model, we first check if we already run and saved it
 ifelse("model_Milnesium.rds" %in% list.files("./output"),
        {model_Milnesium = readRDS("./output/model_Milnesium.rds")},
        {model_Milnesium = AhI_run_model(data_Milnesium, column_IDs = c(8,7,5,6))
         saveRDS(model_Milnesium, file="./output/model_Milnesium.rds")})
 
-```
-
-```{r process model output}
 model_Milnesium_processed = AhI_analyze_model(model_Milnesium)
-```
 
-```{r plot results, fig.width=8, fig.height=8}
 plot_AhI(model_Milnesium_processed)
 ```
 
+```{r process model output}
 
+```
 
+```{r plot results, fig.width=8, fig.height=8}
+
+```
+
+## References
 
 
