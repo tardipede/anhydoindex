@@ -1,5 +1,5 @@
 # Anhydrobiosis_index
 
-A [workflowr][] project.
+Website: [anhydroindex][].
 
-[workflowr]: https://github.com/workflowr/workflowr
+[anhydroindex]: https://tardipede.github.io/anhydoindex/
