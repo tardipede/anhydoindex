@@ -2,4 +2,3 @@
 
 Website: [anhydroindex][].
 
-[anhydroindex]: https://tardipede.github.io/anhydoindex/
