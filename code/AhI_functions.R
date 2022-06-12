@@ -103,6 +103,7 @@ AhI_run_model <- function(data,
 
 AhI_analyze_model <- function(model, pairwise.test = T, limits = c(0, 24)) {
   require(R2jags)
+  require(tidyverse)
   if (pairwise.test == T) {
     require(bayestestR)
   }
@@ -145,7 +146,8 @@ AhI_analyze_model <- function(model, pairwise.test = T, limits = c(0, 24)) {
 
 
   # Put them together in a list
-  results <- list(AhI = AhI_summary, Q = Q_summary, p = p_summary)
+  results <- list(AhI = AhI_summary, Q = Q_summary, p = p_summary,
+                  p_chains = ps, Q_chains = Qs, AhI_chains = AhIs)
 
   if (pairwise.test == T) {
 
@@ -170,8 +172,8 @@ AhI_analyze_model <- function(model, pairwise.test = T, limits = c(0, 24)) {
       pairwise.table[i, 7:8] <- AhI_pvals <- bayes_testing(AhIs[, pairwise.table[i, 1]], AhIs[, pairwise.table[i, 2]])
     }
 
-    results[[4]] <- pairwise.table
-    names(results)[4] <- "pairwise_p"
+    results[[7]] <- pairwise.table
+    names(results)[7] <- "pairwise_p"
   }
 
   return(results)

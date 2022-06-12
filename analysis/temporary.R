@@ -39,7 +39,7 @@ run_model_function = function(x){
 }
 
 
-models = apply(design_matrix[6346:nrow(design_matrix),], MARGIN = 1, FUN = run_model_function )
+models = apply(design_matrix[1:nrow(design_matrix),], MARGIN = 1, FUN = run_model_function )
 
 
 
@@ -146,3 +146,4 @@ subset(data_all, variable == "p_AVG") %>%
   theme_bw() +
   geom_tile(aes(x = p, y = -Q, fill = p - value)) +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0)
+
